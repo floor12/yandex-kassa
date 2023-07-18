@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/dbzer0/yandex-kassa/api/info"
+	"github.com/GiddeonWyeth/yandex-kassa/api/info"
 )
 
 const (
@@ -90,5 +90,22 @@ func (p *NewPayment) WithCapture() *NewPayment {
 
 func (p *NewPayment) WithDescription(desc string) *NewPayment {
 	p.Description = &desc
+	return p
+}
+
+func (p *NewPayment) WithReceipt(email string) *NewPayment {
+	items := [1]ReceiptItem{{
+		Description:    "Курс",
+		Quantity:       "1.00",
+		Amount:         p.Amount,
+		VatCode:        "1",
+		PaymentMode:    "full_prepayment",
+		PaymentSubject: "service",
+	}}
+	customer := ReceiptCustomer{Email: email}
+	p.Receipt = &Receipt{
+		Customer: customer,
+		Items:    items,
+	}
 	return p
 }

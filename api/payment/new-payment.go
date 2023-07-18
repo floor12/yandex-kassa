@@ -1,7 +1,7 @@
 package payment
 
 import (
-	"github.com/dbzer0/yandex-kassa/api/client"
+	"github.com/GiddeonWyeth/yandex-kassa/api/client"
 )
 
 type NewPayment struct {
@@ -12,6 +12,7 @@ type NewPayment struct {
 	MethodData   *MethodData       `json:"payment_method_data,omitempty" bson:"payment_method_data,omitempty"` // данные для оплаты конкретным способом  (payment_method)
 	Confirmation *Confirmation     `json:"confirmation,omitempty" bson:"confirmation,omitempty"`               // данные, необходимые для инициации выбранного сценария подтверждения платежа пользователем
 	Capture      *bool             `json:"capture,omitempty" bson:"capture,omitempty"`                         // автоматический прием  поступившего платежа
+	Receipt      *Receipt          `json:"receipt,omitempty" bson:"receipt,omitempty"`
 }
 
 type Recipient struct {
@@ -31,4 +32,22 @@ type Confirmation struct {
 
 type MethodData struct {
 	Type string `json:"type" bson:"type"` // код способа оплаты
+}
+
+type Receipt struct {
+	Customer ReceiptCustomer `json:"customer"`
+	Items    [1]ReceiptItem  `json:"items"`
+}
+
+type ReceiptCustomer struct {
+	Email string `json:"email"`
+}
+
+type ReceiptItem struct {
+	Description    string `json:"description"`
+	Quantity       string `json:"quantity"`
+	Amount         Amount `json:"amount"`
+	VatCode        string `json:"vat_code"`
+	PaymentMode    string `json:"payment_mode"`
+	PaymentSubject string `json:"payment_subject"`
 }
