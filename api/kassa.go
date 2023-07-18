@@ -139,3 +139,30 @@ func (k *Kassa) Cancel(ctx context.Context, idempKey, paymentID string) (*info.P
 
 	return p, nil
 }
+
+func (k *Kassa) RefundPayment(ctx context.Context, idempKey string, paymentID string, value string, currency string) (*info.RefundPayment, error) {
+	p := &info.RefundPayment{
+		PaymentID: paymentID,
+		APIClient: k.client,
+		Amount: info.Amount{
+			Value:    value,
+			Currency: currency,
+		},
+	}
+
+	body, err := json.Marshal(p)
+	if err != nil {
+		return nil, err
+	}
+
+	reply, err := p.APIClient.Refund(ctx, idempKey, &body)
+	if err != nil {
+		return nil, err
+	}
+	defer reply.Close()
+
+	if err := json.NewDecoder(reply).Decode(&p); err != nil {
+		return nil, err
+	}
+	return p, nil
+}

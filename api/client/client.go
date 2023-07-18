@@ -76,6 +76,14 @@ func (c *APIClient) Cancel(ctx context.Context, idempKey, paymentID string) (io.
 	return response.Body, nil
 }
 
+func (c *APIClient) Refund(ctx context.Context, idempKey string, body *[]byte) (io.ReadCloser, error) {
+	response, err := c.post(ctx, "refunds", idempKey, *body)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 func (c *APIClient) Capture(ctx context.Context, idempKey, paymentID string, body *[]byte) (io.ReadCloser, error) {
 	response, err := c.post(ctx, fmt.Sprintf("payments/%s/capture", paymentID), idempKey, *body)
 	if err != nil {

@@ -27,6 +27,14 @@ type Payment struct {
 	Type      *string `json:"type,omitempty" bson:"type,omitempty"`           // содержит признак ошибки, например: error
 }
 
+type RefundPayment struct {
+	APIClient *client.APIClient `json:"-" bson:"-"`
+	Amount    Amount            `json:"amount" bson:"amount"`
+	PaymentID string            `json:"payment_id" bson:"payment_id"`
+	ID        string            `json:"id,omitempty" bson:"id"`
+	Status    string            `json:"status,omitempty" bson:"status"`
+}
+
 type Amount struct {
 	Value    string `json:"value" bson:"value"`       // сумма в выбранной валюте. Выражается в виде строки и пишется через точку
 	Currency string `json:"currency" bson:"currency"` // код валюты в формате ISO-4217
