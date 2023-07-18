@@ -6,9 +6,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/GiddeonWyeth/yandex-kassa/api/client"
-	"github.com/GiddeonWyeth/yandex-kassa/api/info"
-	"github.com/GiddeonWyeth/yandex-kassa/api/payment"
+	"github.com/floor12/yandex-kassa/api/client"
+	"github.com/floor12/yandex-kassa/api/info"
+	"github.com/floor12/yandex-kassa/api/payment"
 )
 
 const apiURL = "https://api.yookassa.ru/v3/"
@@ -48,9 +48,9 @@ func (k *Kassa) NewPayment(value, currency string) *payment.NewPayment {
 }
 
 // Payment создает создает объект Payment по которому доступны операции:
-//   * получения информации о платеже;
-//   * подтверждение платежа;
-//   * отмена платежа;
+//   - получения информации о платеже;
+//   - подтверждение платежа;
+//   - отмена платежа;
 func (k *Kassa) Payment(paymentID string) *info.Payment {
 	return &info.Payment{
 		APIClient: k.client,

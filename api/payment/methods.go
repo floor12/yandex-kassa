@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/GiddeonWyeth/yandex-kassa/api/info"
+	"github.com/floor12/yandex-kassa/api/info"
 )
 
 const (
