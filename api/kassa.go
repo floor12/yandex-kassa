@@ -84,7 +84,7 @@ func (k *Kassa) Find(ctx context.Context, paymentID string) (*info.Payment, erro
 }
 
 // Capture подтверждает вашу готовность принять платеж.
-func (k *Kassa) Capture(ctx context.Context, idempKey, paymentID, value, currency string) (*info.Payment, error) {
+func (k *Kassa) Capture(ctx context.Context, idempotencyKey, paymentID, value, currency string) (*info.Payment, error) {
 	p := &info.Payment{
 		ID:        paymentID,
 		APIClient: k.client,
@@ -99,7 +99,7 @@ func (k *Kassa) Capture(ctx context.Context, idempKey, paymentID, value, currenc
 		return nil, err
 	}
 
-	reply, err := p.APIClient.Capture(ctx, idempKey, paymentID, &body)
+	reply, err := p.APIClient.Capture(ctx, idempotencyKey, paymentID, &body)
 	if err != nil {
 		return nil, err
 	}
@@ -117,13 +117,13 @@ func (k *Kassa) Capture(ctx context.Context, idempKey, paymentID, value, currenc
 }
 
 // Cancel отменяет платеж, находящийся в статусе waiting_for_capture.
-func (k *Kassa) Cancel(ctx context.Context, idempKey, paymentID string) (*info.Payment, error) {
+func (k *Kassa) Cancel(ctx context.Context, idempotencyKey, paymentID string) (*info.Payment, error) {
 	p := &info.Payment{
 		ID:        paymentID,
 		APIClient: k.client,
 	}
 
-	reply, err := p.APIClient.Cancel(ctx, idempKey, paymentID)
+	reply, err := p.APIClient.Cancel(ctx, idempotencyKey, paymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +140,7 @@ func (k *Kassa) Cancel(ctx context.Context, idempKey, paymentID string) (*info.P
 	return p, nil
 }
 
-func (k *Kassa) RefundPayment(ctx context.Context, idempKey string, paymentID string, value string, currency string) (*info.RefundPayment, error) {
+func (k *Kassa) RefundPayment(ctx context.Context, idempotencyKey string, paymentID string, value string, currency string) (*info.RefundPayment, error) {
 	p := &info.RefundPayment{
 		PaymentID: paymentID,
 		APIClient: k.client,
@@ -155,7 +155,7 @@ func (k *Kassa) RefundPayment(ctx context.Context, idempKey string, paymentID st
 		return nil, err
 	}
 
-	reply, err := p.APIClient.Refund(ctx, idempKey, &body)
+	reply, err := p.APIClient.Refund(ctx, idempotencyKey, &body)
 	if err != nil {
 		return nil, err
 	}

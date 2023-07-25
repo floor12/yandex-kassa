@@ -36,7 +36,7 @@ type MethodData struct {
 
 type Receipt struct {
 	Customer ReceiptCustomer `json:"customer"`
-	Items    [1]ReceiptItem  `json:"items"`
+	Items    []ReceiptItem   `json:"items"`
 }
 
 type ReceiptCustomer struct {

@@ -19,13 +19,13 @@ const (
 
 // Create создает платеж. Он содержит всю необходимую информацию для проведения о
 // платы (сумму, валюту и статус).
-func (p *NewPayment) Create(ctx context.Context, idempKey string) (*info.Payment, error) {
+func (p *NewPayment) Create(ctx context.Context, idempotencyKey string) (*info.Payment, error) {
 	body, err := json.Marshal(p)
 	if err != nil {
 		return nil, err
 	}
 
-	reply, err := p.APIClient.Create(ctx, idempKey, &body)
+	reply, err := p.APIClient.Create(ctx, idempotencyKey, &body)
 	if err != nil {
 		return nil, err
 	}
@@ -93,15 +93,7 @@ func (p *NewPayment) WithDescription(desc string) *NewPayment {
 	return p
 }
 
-func (p *NewPayment) WithReceipt(email string) *NewPayment {
-	items := [1]ReceiptItem{{
-		Description:    "Курс",
-		Quantity:       "1.00",
-		Amount:         p.Amount,
-		VatCode:        "1",
-		PaymentMode:    "full_prepayment",
-		PaymentSubject: "service",
-	}}
+func (p *NewPayment) WithReceipt(email string, items []ReceiptItem) *NewPayment {
 	customer := ReceiptCustomer{Email: email}
 	p.Receipt = &Receipt{
 		Customer: customer,
