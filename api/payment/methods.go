@@ -74,6 +74,11 @@ func (p *NewPayment) WithMethod(method string) *NewPayment {
 	return p
 }
 
+func (p *NewPayment) WithTaxSystemCode(id int) *NewPayment {
+	p.TaxSystemCode = &id
+	return p
+}
+
 func (p *NewPayment) WithConfirmationRedirect(url string) *NewPayment {
 	p.Confirmation = &Confirmation{
 		Type:      "redirect",

@@ -5,14 +5,15 @@ import (
 )
 
 type NewPayment struct {
-	APIClient    *client.APIClient `json:"-" bson:"-"`
-	Amount       Amount            `json:"amount" bson:"amount"`                                               // сумма платежа
-	Description  *string           `json:"description,omitempty" bson:"description,omitempty"`                 // описание транзакции (не более 128 символов), которое вы увидите в личном кабинете Яндекс.Кассы
-	Recipient    *Recipient        `json:"recipient,omitempty" bson:"recipient,omitempty"`                     // получатель платежа
-	MethodData   *MethodData       `json:"payment_method_data,omitempty" bson:"payment_method_data,omitempty"` // данные для оплаты конкретным способом  (payment_method)
-	Confirmation *Confirmation     `json:"confirmation,omitempty" bson:"confirmation,omitempty"`               // данные, необходимые для инициации выбранного сценария подтверждения платежа пользователем
-	Capture      *bool             `json:"capture,omitempty" bson:"capture,omitempty"`                         // автоматический прием  поступившего платежа
-	Receipt      *Receipt          `json:"receipt,omitempty" bson:"receipt,omitempty"`
+	APIClient     *client.APIClient `json:"-" bson:"-"`
+	Amount        Amount            `json:"amount" bson:"amount"`                                               // сумма платежа
+	Description   *string           `json:"description,omitempty" bson:"description,omitempty"`                 // описание транзакции (не более 128 символов), которое вы увидите в личном кабинете Яндекс.Кассы
+	Recipient     *Recipient        `json:"recipient,omitempty" bson:"recipient,omitempty"`                     // получатель платежа
+	MethodData    *MethodData       `json:"payment_method_data,omitempty" bson:"payment_method_data,omitempty"` // данные для оплаты конкретным способом  (payment_method)
+	Confirmation  *Confirmation     `json:"confirmation,omitempty" bson:"confirmation,omitempty"`               // данные, необходимые для инициации выбранного сценария подтверждения платежа пользователем
+	Capture       *bool             `json:"capture,omitempty" bson:"capture,omitempty"`                         // автоматический прием  поступившего платежа
+	Receipt       *Receipt          `json:"receipt,omitempty" bson:"receipt,omitempty"`
+	TaxSystemCode *int              `json:"tax_system_code,omitempty" bson:"tax_system_code,omitempty"`
 }
 
 type Recipient struct {
